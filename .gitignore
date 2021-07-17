@@ -1,0 +1,10 @@
+# build or IDE
+/build*/
+/.vscode/
+/.vs/
+*.user*
+
+# temporary
+/Temporary/
+/Temp/
+/Tmp/
