@@ -32,6 +32,7 @@ int main()
 {
     TEST_SORT(ref::bubbleSort);
     TEST_SORT(ref::selectSort);
+    TEST_SORT(ref::insertSort);
     TEST_SORT(mySort);
 }
 
