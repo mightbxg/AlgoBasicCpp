@@ -7,6 +7,8 @@ namespace abc::ref {
 /// time:O(n*n) space:O(1) nonstable
 inline void bubbleSort(std::vector<int>& vec)
 {
+    if (vec.empty())
+        return;
     for (std::size_t i = 0; i < vec.size() - 1; ++i) {
         for (std::size_t j = 0; j < vec.size() - 1 - i; ++j) {
             if (vec[j] > vec[j + 1])
@@ -18,6 +20,8 @@ inline void bubbleSort(std::vector<int>& vec)
 /// time:O(n*n) space:O(1) nonstable
 inline void selectSort(std::vector<int>& vec)
 {
+    if (vec.empty())
+        return;
     for (std::size_t i = 0; i < vec.size() - 1; ++i) {
         std::size_t min_id = i;
         for (std::size_t j = i; j < vec.size(); ++j) {

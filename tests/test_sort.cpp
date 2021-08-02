@@ -37,6 +37,33 @@ int main()
 
 namespace {
 
+bool testSortEmpty(SortFunc sort)
+{
+    vector<int> data = {};
+    sort(data);
+    if (!data.empty()) {
+        std::cout << "\33[31m";
+        std::cout << "test failed with empty data\n";
+        std::cout << "\33[0m";
+        return false;
+    }
+    return true;
+}
+
+bool testSortOne(SortFunc sort)
+{
+    const int a = 0;
+    vector<int> data = { a };
+    sort(data);
+    if (data.size() != 1 || data[0] != a) {
+        std::cout << "\33[31m";
+        std::cout << "test failed with one element\n";
+        std::cout << "\33[0m";
+        return false;
+    }
+    return true;
+}
+
 bool testSortOnce(SortFunc sort, int shuffle_seed)
 {
     auto unsorted = vec_ref;
@@ -58,7 +85,9 @@ bool testSortOnce(SortFunc sort, int shuffle_seed)
 void testSort(SortFunc sort)
 {
     for (int i = 0; i < 100; ++i) {
-        if (!testSortOnce(sort, i)) {
+        if (!testSortEmpty(sort)
+            || !testSortOne(sort)
+            || !testSortOnce(sort, i)) {
             return;
         }
     }
