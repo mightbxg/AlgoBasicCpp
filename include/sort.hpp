@@ -20,7 +20,7 @@ inline void selectSort(std::vector<int>& vec)
 {
     for (std::size_t i = 0; i < vec.size() - 1; ++i) {
         std::size_t min_id = i;
-        for (size_t j = i; j < vec.size(); ++j) {
+        for (std::size_t j = i; j < vec.size(); ++j) {
             if (vec[j] < vec[min_id])
                 min_id = j;
         }
