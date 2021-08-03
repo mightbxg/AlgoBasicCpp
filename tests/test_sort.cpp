@@ -30,10 +30,11 @@ void mySort(vector<int>& vec)
 
 int main()
 {
+    TEST_SORT(mySort);
     TEST_SORT(ref::bubbleSort);
     TEST_SORT(ref::selectSort);
     TEST_SORT(ref::insertSort);
-    TEST_SORT(mySort);
+    TEST_SORT(ref::shellSort);
 }
 
 namespace {
