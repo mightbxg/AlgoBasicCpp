@@ -85,12 +85,12 @@ bool testSortOnce(SortFunc sort, int shuffle_seed)
 
 void testSort(SortFunc sort)
 {
+    if (!testSortEmpty(sort)
+        || !testSortOne(sort))
+        return;
     for (int i = 0; i < 100; ++i) {
-        if (!testSortEmpty(sort)
-            || !testSortOne(sort)
-            || !testSortOnce(sort, i)) {
+        if (!testSortOnce(sort, i))
             return;
-        }
     }
     std::cout << "all test passed" << '\n';
 }
