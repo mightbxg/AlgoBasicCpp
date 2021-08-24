@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <vector>
 
 namespace abc::ref {
@@ -65,6 +66,63 @@ inline void shellSort(std::vector<int>& vec)
             }
         }
     }
+}
+
+namespace details_quicksort { // quick sort
+    inline int partition(std::vector<int>& v, int low, int high)
+    {
+        int pivot = v[low];
+        while (low < high) {
+            while (low < high && v[high] >= pivot)
+                --high;
+            v[low] = v[high];
+            while (low < high && v[low] <= pivot)
+                ++low;
+            v[high] = v[low];
+        }
+        v[low] = pivot;
+        return low;
+    }
+
+    inline void quickSortInvoke(std::vector<int>& v, int low, int high)
+    {
+        if (high <= low)
+            return;
+        int pivot = partition(v, low, high);
+        quickSortInvoke(v, low, pivot - 1);
+        quickSortInvoke(v, pivot + 1, high);
+    }
+
+    std::vector<int>::iterator partitionStd(
+        std::vector<int>::iterator first,
+        std::vector<int>::iterator last)
+    {
+        auto pivot = first + (last - first) / 2;
+        std::nth_element(first, pivot, last);
+        return pivot;
+    }
+
+    void quickSortStdInvoke(std::vector<int>::iterator first, std::vector<int>::iterator last)
+    {
+        if (last - first < 2)
+            return;
+        auto pivot = partitionStd(first, last);
+        quickSortStdInvoke(first, pivot);
+        quickSortStdInvoke(pivot + 1, last);
+    }
+} // namespace details
+
+/// time: O(n*logn)
+/// space: O(1)
+/// un-stable
+void quickSort(std::vector<int>& v)
+{
+    return details_quicksort::quickSortInvoke(v, 0, v.size() - 1);
+}
+
+void quickSortStd(std::vector<int>& v)
+{
+    return details_quicksort::quickSortStdInvoke(v.begin(), v.end());
 }
 
 } //namespace abc::ref
