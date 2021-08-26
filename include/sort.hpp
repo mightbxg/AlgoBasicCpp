@@ -125,4 +125,40 @@ void quickSortStd(std::vector<int>& v)
     return details_quicksort::quickSortStdInvoke(v.begin(), v.end());
 }
 
+namespace details_mergesort {
+    void merge(std::vector<int>& vec, int low, int mid, int high)
+    {
+        std::vector<int> tmp(high - low);
+        for (int i = low; i < high; ++i)
+            tmp[i - low] = vec[i];
+        int p1 = 0, p2 = mid - low, p = low;
+        while (p1 < mid - low || p2 < high - low) {
+            if (p1 >= mid - low)
+                vec[p] = tmp[p2++];
+            else if (p2 >= high - low)
+                vec[p] = tmp[p1++];
+            else if (tmp[p1] < tmp[p2])
+                vec[p] = tmp[p1++];
+            else
+                vec[p] = tmp[p2++];
+            ++p;
+        }
+    }
+
+    void sort(std::vector<int>& vec, int low, int high)
+    {
+        if (high - low < 2)
+            return;
+        int mid = low + (high - low) / 2;
+        sort(vec, low, mid);
+        sort(vec, mid, high);
+        merge(vec, low, mid, high);
+    }
+} // namespace details_mergesort
+
+void mergeSort(std::vector<int>& v)
+{
+    return details_mergesort::sort(v, 0, v.size());
+}
+
 } //namespace abc::ref

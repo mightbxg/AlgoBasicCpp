@@ -37,6 +37,7 @@ int main()
     TEST_SORT(ref::shellSort);
     TEST_SORT(ref::quickSort);
     TEST_SORT(ref::quickSortStd);
+    TEST_SORT(ref::mergeSort);
 }
 
 namespace {
