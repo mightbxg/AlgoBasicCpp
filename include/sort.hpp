@@ -156,6 +156,9 @@ namespace details_mergesort {
     }
 } // namespace details_mergesort
 
+/// time: O(n*logn)
+/// space: O(n)
+/// stable
 void mergeSort(std::vector<int>& v)
 {
     return details_mergesort::sort(v, 0, v.size());
