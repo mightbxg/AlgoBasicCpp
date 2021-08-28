@@ -69,46 +69,36 @@ inline void shellSort(std::vector<int>& vec)
 }
 
 namespace details_quicksort { // quick sort
-    inline int partition(std::vector<int>& v, int low, int high)
+    inline void quickSort(std::vector<int>& vec, int l, int r)
     {
-        int pivot = v[low];
-        while (low < high) {
-            while (low < high && v[high] >= pivot)
-                --high;
-            v[low] = v[high];
-            while (low < high && v[low] <= pivot)
-                ++low;
-            v[high] = v[low];
+        if (l >= r)
+            return;
+        // partition
+        int i = l, j = r;
+        while (i < j) {
+            while (i < j && vec[j] >= vec[l])
+                --j;
+            while (i < j && vec[i] <= vec[l])
+                ++i;
+            std::swap(vec[i], vec[j]);
         }
-        v[low] = pivot;
-        return low;
+        std::swap(vec[i], vec[l]);
+        // divide and conquer
+        quickSort(vec, l, i - 1);
+        quickSort(vec, i + 1, r);
     }
 
-    inline void quickSortInvoke(std::vector<int>& v, int low, int high)
+    void quickSortStd(std::vector<int>::iterator begin,
+        std::vector<int>::iterator end)
     {
-        if (high <= low)
+        if (end - begin < 2)
             return;
-        int pivot = partition(v, low, high);
-        quickSortInvoke(v, low, pivot - 1);
-        quickSortInvoke(v, pivot + 1, high);
-    }
-
-    std::vector<int>::iterator partitionStd(
-        std::vector<int>::iterator first,
-        std::vector<int>::iterator last)
-    {
-        auto pivot = first + (last - first) / 2;
-        std::nth_element(first, pivot, last);
-        return pivot;
-    }
-
-    void quickSortStdInvoke(std::vector<int>::iterator first, std::vector<int>::iterator last)
-    {
-        if (last - first < 2)
-            return;
-        auto pivot = partitionStd(first, last);
-        quickSortStdInvoke(first, pivot);
-        quickSortStdInvoke(pivot + 1, last);
+        // partition
+        auto pivot = begin + (end - begin) / 2;
+        std::nth_element(begin, pivot, end);
+        // divide and conqure
+        sort(begin, pivot);
+        sort(pivot + 1, end);
     }
 } // namespace details
 
@@ -117,12 +107,12 @@ namespace details_quicksort { // quick sort
 /// un-stable
 void quickSort(std::vector<int>& v)
 {
-    return details_quicksort::quickSortInvoke(v, 0, v.size() - 1);
+    return details_quicksort::quickSort(v, 0, v.size() - 1);
 }
 
 void quickSortStd(std::vector<int>& v)
 {
-    return details_quicksort::quickSortStdInvoke(v.begin(), v.end());
+    return details_quicksort::quickSortStd(v.begin(), v.end());
 }
 
 namespace details_mergesort {
