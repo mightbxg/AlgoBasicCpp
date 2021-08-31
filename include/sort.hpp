@@ -103,6 +103,7 @@ namespace details_quicksort { // quick sort
 } // namespace details
 
 /// time: O(n*logn)
+///     [n] compares & swaps per recursion, [logn] recirsion depth
 /// space: O(1)
 /// un-stable
 void quickSort(std::vector<int>& v)
