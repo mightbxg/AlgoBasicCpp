@@ -28,12 +28,14 @@ int main(int argc, char** argv)
     }
     auto pts = loadPts(argv[1]);
     cout << pts.size() << " pts loaded.\n";
+    Eigen::Vector3d ground_truth = { 0.5, -1.0, 10.0 };
 
     abc::WhiteBoard::Config bd_config;
     bd_config.rows = 300;
     bd_config.cols = 500;
-    abc::WhiteBoard bd;
-    bd.drawPts(pts);
+    abc::WhiteBoard bd(bd_config);
+    bd.drawLine(ground_truth, { 0, 255, 0 });
+    bd.drawPts(pts, { 0, 0, 255 }, 1);
     imshow("image", bd.image());
     waitKey(0);
 
