@@ -32,6 +32,9 @@ public:
         Scalar& x() { return v_[0]; }
         Scalar& y() { return v_[1]; }
         Scalar& operator[](int i) { return v_[i]; }
+        const Scalar& x() const { return v_[0]; }
+        const Scalar& y() const { return v_[1]; }
+        const Scalar& operator[](int i) const { return v_[i]; }
 
         operator cv::Point_<Scalar>() const
         {
@@ -72,10 +75,18 @@ public:
     }
 
     template <typename T>
-    void drawPts(const std::vector<T>& pts, int size = 1,
+    void drawPts(const std::vector<T>& pts, int size = 0,
         const cv::Scalar& color = cv::Scalar::all(0))
     {
+        for (const auto& pt : pts) {
+            Pt tmp(pt);
+            if (cfg_.flip_y)
+                tmp.y() = cfg_.rows - tmp.y() - 1.0;
+            cv::circle(board_, cv::Point2f(tmp), size, color, cv::FILLED);
+        }
     }
+
+    const cv::Mat& image() const { return board_; }
 
 private:
     Config cfg_;

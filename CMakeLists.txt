@@ -9,7 +9,7 @@ file(GLOB_RECURSE abc_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
 add_library(abc STATIC
-    ${Abc_HEADERS}
+    ${abc_HEADERS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src/utils/white_board.cpp)
 target_include_directories(abc PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/include")
