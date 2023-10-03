@@ -1,7 +1,9 @@
 # build or IDE
 /build*/
+/cmake-build*/
 /.vscode/
 /.vs/
+/.idea/
 *.user*
 
 # temporary

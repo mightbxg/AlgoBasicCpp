@@ -26,7 +26,7 @@ void mySort(vector<int>& vec)
     (void)vec;
 }
 
-} //namespace
+} // namespace
 
 int main()
 {
@@ -99,4 +99,4 @@ void testSort(SortFunc sort)
     std::cout << "all test passed" << '\n';
 }
 
-} //namespace
+} // namespace

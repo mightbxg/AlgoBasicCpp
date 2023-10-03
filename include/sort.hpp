@@ -155,4 +155,4 @@ void mergeSort(std::vector<int>& v)
     return details_mergesort::sort(v, 0, v.size());
 }
 
-} //namespace abc::ref
+} // namespace abc::ref

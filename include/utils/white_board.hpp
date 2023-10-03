@@ -133,4 +133,4 @@ private:
     cv::Mat board_;
 };
 
-} //namespace abc
+} // namespace abc

@@ -4,8 +4,6 @@
 #include <iostream>
 #include <vector>
 
-namespace std {
-
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& vec)
 {
@@ -21,5 +19,3 @@ std::ostream& operator<<(std::ostream& os, const std::array<T, N>& arr)
         os << v << " ";
     return os;
 }
-
-} //namespace std

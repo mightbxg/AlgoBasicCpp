@@ -5,4 +5,4 @@ using namespace cv;
 
 namespace abc {
 
-} //namespace abc
+} // namespace abc
