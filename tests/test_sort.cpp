@@ -20,10 +20,9 @@ void testSort(SortFunc sort);
         testSort(func);                                  \
     }
 
-void mySort(vector<int>& vec)
+void mySort([[maybe_unused]] vector<int>& vec)
 {
     // your sort algorithm code here
-    (void)vec;
 }
 
 } // namespace

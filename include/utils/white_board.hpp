@@ -2,6 +2,7 @@
 
 #include <Eigen/Core>
 #include <opencv2/opencv.hpp>
+#include <utility>
 
 namespace abc {
 
@@ -45,8 +46,8 @@ public:
         Scalar v_[2] = { 0 };
     };
 
-    WhiteBoard(const Config& config = Config())
-        : cfg_(config)
+    explicit WhiteBoard(Config config = Config())
+        : cfg_(std::move(config))
     {
         reset();
     }
@@ -68,7 +69,7 @@ public:
         reset();
     }
 
-    void setBackground(const cv::Scalar color)
+    void setBackground(const cv::Scalar& color)
     {
         cfg_.background = color;
         reset();
@@ -99,11 +100,11 @@ public:
         if (is_zero(line.x())) {
             pt1.y = pt2.y = -line.z() / line.y();
             pt1.x = 0.f;
-            pt2.x = cfg_.cols;
+            pt2.x = static_cast<float>(cfg_.cols);
         } else if (is_zero(line.y())) {
             pt1.x = pt2.x = -line.z() / line.x();
             pt1.y = 0.f;
-            pt2.y = cfg_.rows;
+            pt2.y = static_cast<float>(cfg_.rows);
         } else {
             pt1 = { 0.f, float(-line.z() / line.y()) };
             pt2 = { float(cfg_.cols), float(-(line.x() * cfg_.cols + line.z()) / line.y()) };
@@ -113,7 +114,7 @@ public:
         cv::line(board_, pt1, pt2, color, thickness);
     }
 
-    const cv::Mat& image() const { return board_; }
+    [[nodiscard]] const cv::Mat& image() const { return board_; }
 
 private:
     template <typename Scalar>

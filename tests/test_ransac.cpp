@@ -38,7 +38,7 @@ public:
     { // ax+b=y
         using namespace Eigen;
         if (pts.size() < 2)
-            return Line();
+            return {};
         Matrix<double, 2, Dynamic> A(2, pts.size());
         Matrix<double, Dynamic, 1> b(pts.size());
         for (size_t i = 0; i < pts.size(); ++i) {
