@@ -9,16 +9,16 @@ namespace {
 
 using SortFunc = void(std::vector<int>&);
 using VecGen = VectorGenerator<int>;
-static const auto vec_ref = VecGen::genSortedVec(10);
+const auto vec_ref = VecGen::genSortedVec(10);
 
 bool testSortOnce(SortFunc sort, int shuffle_seed = -1);
 void testSort(SortFunc sort);
 
 #define TEST_SORT(func)                                  \
-    {                                                    \
+    do {                                                 \
         std::cout << "[\33[36m" << #func << "\33[0m]: "; \
         testSort(func);                                  \
-    }
+    } while (false)
 
 void mySort([[maybe_unused]] vector<int>& vec)
 {
