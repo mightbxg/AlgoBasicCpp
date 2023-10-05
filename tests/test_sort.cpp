@@ -1,6 +1,6 @@
-#include "sort.hpp"
-#include "utils/io.hpp"
-#include "utils/vector_generator.hpp"
+#include "algorithms/sort.h"
+#include "utils/io.h"
+#include "utils/vector_generator.h"
 
 using namespace std;
 using namespace abc;
