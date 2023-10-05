@@ -97,13 +97,13 @@ namespace details_quicksort { // quick sort
         auto pivot = begin + (end - begin) / 2;
         std::nth_element(begin, pivot, end);
         // divide and conqure
-        sort(begin, pivot);
-        sort(pivot + 1, end);
+        quickSortStd(begin, pivot);
+        quickSortStd(pivot + 1, end);
     }
 } // namespace details
 
 /// time: O(n*logn)
-///     [n] compares & swaps per recursion, [logn] recirsion depth
+///     [n] compares & swaps per recursion, [logn] recursion depth
 /// space: O(1)
 /// un-stable
 void quickSort(std::vector<int>& v)
@@ -111,6 +111,8 @@ void quickSort(std::vector<int>& v)
     return details_quicksort::quickSort(v, 0, v.size() - 1);
 }
 
+/// time: O(n*n)
+///     [n] nth_element, [logn] recursion depth
 void quickSortStd(std::vector<int>& v)
 {
     return details_quicksort::quickSortStd(v.begin(), v.end());
@@ -120,20 +122,15 @@ namespace details_mergesort {
     void merge(std::vector<int>& vec, int low, int mid, int high)
     {
         std::vector<int> tmp(high - low);
-        for (int i = low; i < high; ++i)
-            tmp[i - low] = vec[i];
-        int p1 = 0, p2 = mid - low, p = low;
-        while (p1 < mid - low || p2 < high - low) {
-            if (p1 >= mid - low)
-                vec[p] = tmp[p2++];
-            else if (p2 >= high - low)
-                vec[p] = tmp[p1++];
-            else if (tmp[p1] < tmp[p2])
-                vec[p] = tmp[p1++];
-            else
-                vec[p] = tmp[p2++];
-            ++p;
-        }
+        std::copy(vec.begin() + low, vec.begin() + high, tmp.begin());
+        const int low_size = mid - low, all_size = high - low;
+        int p1 = 0, p2 = low_size, p = low;
+        while (p1 < low_size && p2 < all_size)
+            vec[p++] = tmp[p1] <= tmp[p2] ? tmp[p1++] : tmp[p2++];
+        while (p1 < low_size)
+            vec[p++] = tmp[p1++];
+        while (p2 < all_size)
+            vec[p++] = tmp[p2++];
     }
 
     void sort(std::vector<int>& vec, int low, int high)
