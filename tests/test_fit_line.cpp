@@ -6,14 +6,14 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-void testFitLine(const abc::LineFitter* algo)
+static void testFitLine(const abc::LineFitter* algo, double outlier_rate = 0.0)
 {
     assert(algo);
     Eigen::Vector3d model_gt { 0.5, -1.0, 10 };
     abc::LinePtGenerator generator;
     generator.params.setCoeff(model_gt);
     generator.params.noise_std = 5.0;
-    generator.params.outlier_rate = 0.0;
+    generator.params.outlier_rate = outlier_rate;
 
     auto pts = generator.gen();
     auto model_fitted = algo->fitLine(pts);
@@ -36,10 +36,20 @@ TEST(fit_line, linear_ref)
 
 TEST(fit_line, optimize_auto)
 {
-    testFitLine(new abc::ref::LineFitterOptimizeAuto(true));
+    testFitLine(new abc::ref::LineFitterOptimizeAuto(false, true));
 }
 
 TEST(fit_line, optimize_analytical)
 {
-    testFitLine(new abc::ref::LineFitterOptimizeAnalytical(true));
+    testFitLine(new abc::ref::LineFitterOptimizeAnalytical(false, true));
+}
+
+TEST(fit_line_with_outlier, optimize_auto)
+{
+    testFitLine(new abc::ref::LineFitterOptimizeAuto(true, true), 0.2);
+}
+
+TEST(fit_line_with_outlier, optimize_analytical)
+{
+    testFitLine(new abc::ref::LineFitterOptimizeAnalytical(true, true), 0.2);
 }

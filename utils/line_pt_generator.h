@@ -32,6 +32,7 @@ public:
         assert(params.x_min < params.x_max);
         assert(params.noise_std >= 0.0);
         assert(params.outlier_rate >= 0.0);
+        assert(params.outlier_rate <= 1.0);
 
         // random
         std::random_device rd;

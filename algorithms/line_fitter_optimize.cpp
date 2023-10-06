@@ -26,8 +26,9 @@ Eigen::Vector3d LineFitterOptimizeAuto::fitLine(const std::vector<Eigen::Vector2
         return Eigen::Vector3d::Zero();
     ceres::Problem problem;
     Eigen::Vector2d p { 0.0, 0.0 };
+    ceres::LossFunction* loss_function = use_loss_function ? new ceres::CauchyLoss(2.0) : nullptr;
     for (const auto& pt : pts) {
-        problem.AddResidualBlock(new ceres::AutoDiffCostFunction<LineCostFunctor, 1, 2>(new LineCostFunctor(pt)), nullptr, p.data());
+        problem.AddResidualBlock(new ceres::AutoDiffCostFunction<LineCostFunctor, 1, 2>(new LineCostFunctor(pt)), loss_function, p.data());
     }
     ceres::Solver::Options options;
     options.linear_solver_type = ceres::DENSE_QR;
@@ -67,8 +68,9 @@ Eigen::Vector3d LineFitterOptimizeAnalytical::fitLine(const std::vector<Eigen::V
         return Eigen::Vector3d::Zero();
     ceres::Problem problem;
     Eigen::Vector2d p { 0.0, 0.0 };
+    ceres::LossFunction* loss_function = use_loss_function ? new ceres::CauchyLoss(2.0) : nullptr;
     for (const auto& pt : pts) {
-        problem.AddResidualBlock(new LineCostFunction(pt), nullptr, p.data());
+        problem.AddResidualBlock(new LineCostFunction(pt), loss_function, p.data());
     }
     ceres::Solver::Options options;
     options.linear_solver_type = ceres::DENSE_QR;
