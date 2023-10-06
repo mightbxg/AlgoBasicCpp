@@ -4,6 +4,7 @@ project(AlgoBasicCpp)
 
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(GTest REQUIRED)
 
 file(GLOB_RECURSE ABC_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/utils/*.cpp"
