@@ -2,6 +2,7 @@
 #include "algorithms/line_fitter_optimize.h"
 #include "utils/line_pt_generator.h"
 #include "utils/white_board.h"
+#include <ceres/ceres.h>
 #include <gtest/gtest.h>
 #include <iostream>
 
@@ -36,4 +37,9 @@ TEST(fit_line, linear_ref)
 TEST(fit_line, optimize_auto)
 {
     testFitLine(new abc::ref::LineFitterOptimizeAuto(true));
+}
+
+TEST(fit_line, optimize_analytical)
+{
+    testFitLine(new abc::ref::LineFitterOptimizeAnalytical(true));
 }
