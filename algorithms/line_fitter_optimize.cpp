@@ -1,0 +1,43 @@
+#include "line_fitter_optimize.h"
+#include <ceres/ceres.h>
+#include <iostream>
+
+namespace abc::ref {
+
+struct LineCostFunctor {
+    explicit LineCostFunctor(const Eigen::Vector2d& _pt)
+        : pt(_pt)
+    {
+    }
+
+    template <typename T>
+    bool operator()(const T* const p, T* residual) const
+    {
+        residual[0] = p[0] * pt.x() - pt.y() + p[1];
+        return true;
+    }
+
+    const Eigen::Vector2d pt;
+};
+
+Eigen::Vector3d LineFitterOptimizeAuto::fitLine(const std::vector<Eigen::Vector2d>& pts) const
+{
+    if (pts.size() < 2)
+        return Eigen::Vector3d::Zero();
+    ceres::Problem problem;
+    Eigen::Vector2d p { 0.0, 0.0 };
+    for (const auto& pt : pts) {
+        problem.AddResidualBlock(new ceres::AutoDiffCostFunction<LineCostFunctor, 1, 2>(new LineCostFunctor(pt)), nullptr, p.data());
+    }
+    ceres::Solver::Options options;
+    options.linear_solver_type = ceres::DENSE_QR;
+    options.minimizer_progress_to_stdout = show_debug_info;
+    ceres::Solver::Summary summary;
+    ceres::Solve(options, &problem, &summary);
+    if (show_debug_info) {
+        std::cout << summary.BriefReport() << "\n";
+    }
+    return { p.x(), -1.0, p.y() };
+}
+
+} // namespace abc::ref

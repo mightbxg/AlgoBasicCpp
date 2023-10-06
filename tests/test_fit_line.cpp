@@ -1,11 +1,13 @@
 #include "algorithms/line_fitter_linear.h"
+#include "algorithms/line_fitter_optimize.h"
 #include "utils/line_pt_generator.h"
 #include "utils/white_board.h"
 #include <gtest/gtest.h>
 #include <iostream>
 
-TEST(fit_line, linear_ref)
+void testFitLine(const abc::LineFitter* algo)
 {
+    assert(algo);
     Eigen::Vector3d model_gt { 0.5, -1.0, 10 };
     abc::LinePtGenerator generator;
     generator.params.setCoeff(model_gt);
@@ -13,8 +15,7 @@ TEST(fit_line, linear_ref)
     generator.params.outlier_rate = 0.0;
 
     auto pts = generator.gen();
-    abc::ref::LineFitterLinear algo;
-    auto model_fitted = algo.fitLine(pts);
+    auto model_fitted = algo->fitLine(pts);
     std::cout << "    gt: " << model_gt.transpose() << "\n"
               << "fitted: " << model_fitted.transpose() << "\n";
 
@@ -25,4 +26,14 @@ TEST(fit_line, linear_ref)
     bd.drawPts(pts, { 0, 0, 255 }, 1);
     cv::imshow("fit_line_linear", bd.image());
     cv::waitKey(0);
+}
+
+TEST(fit_line, linear_ref)
+{
+    testFitLine(new abc::ref::LineFitterLinear());
+}
+
+TEST(fit_line, optimize_auto)
+{
+    testFitLine(new abc::ref::LineFitterOptimizeAuto(true));
 }

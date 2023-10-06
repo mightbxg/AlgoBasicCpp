@@ -3,11 +3,11 @@
 #include <Eigen/Core>
 #include <vector>
 
-namespace abc::ref {
+namespace abc {
 
 class LineFitter {
 public:
-    virtual Eigen::Vector3d fitLine(const std::vector<Eigen::Vector2d>& pts) = 0;
+    [[nodiscard]] virtual Eigen::Vector3d fitLine(const std::vector<Eigen::Vector2d>& pts) const = 0;
 };
 
 } // namespace abc::ref

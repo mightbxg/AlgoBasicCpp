@@ -3,7 +3,7 @@
 
 namespace abc::ref {
 
-Eigen::Vector3d LineFitterLinear::fitLine(const std::vector<Eigen::Vector2d>& pts)
+Eigen::Vector3d LineFitterLinear::fitLine(const std::vector<Eigen::Vector2d>& pts) const
 {
     // ax + b = y
     if (pts.size() < 2)
