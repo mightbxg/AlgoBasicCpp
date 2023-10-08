@@ -1,3 +1,4 @@
+#include "algorithms/line_fitter_gn.h"
 #include "algorithms/line_fitter_linear.h"
 #include "algorithms/line_fitter_optimize.h"
 #include "utils/line_pt_generator.h"
@@ -29,27 +30,46 @@ static void testFitLine(const abc::LineFitter* algo, double outlier_rate = 0.0)
     cv::waitKey(0);
 }
 
+static void testFitLineInvalid(const abc::LineFitter* algo)
+{
+    std::vector<Eigen::Vector2d> pts = { { 1, 2 }, { 1, 2 } };
+    auto model = algo->fitLine(pts);
+    std::cout << "fit result of invalid data: " << model.transpose() << "\n";
+}
+
 TEST(fit_line, linear_ref)
 {
-    testFitLine(new abc::ref::LineFitterLinear());
+    abc::ref::LineFitterLinear algo;
+    testFitLine(&algo);
+}
+
+TEST(fit_line, gn)
+{
+    abc::ref::LineFitterGn algo(100, 0.01, true);
+    testFitLineInvalid(&algo);
+    testFitLine(&algo);
 }
 
 TEST(fit_line, optimize_auto)
 {
-    testFitLine(new abc::ref::LineFitterOptimizeAuto(false, true));
+    abc::ref::LineFitterOptimizeAuto algo(false, true);
+    testFitLine(&algo);
 }
 
 TEST(fit_line, optimize_analytical)
 {
-    testFitLine(new abc::ref::LineFitterOptimizeAnalytical(false, true));
+    abc::ref::LineFitterOptimizeAnalytical algo(false, true);
+    testFitLine(&algo);
 }
 
 TEST(fit_line_with_outlier, optimize_auto)
 {
-    testFitLine(new abc::ref::LineFitterOptimizeAuto(true, true), 0.2);
+    abc::ref::LineFitterOptimizeAuto algo(true, true);
+    testFitLine(&algo, 0.2);
 }
 
 TEST(fit_line_with_outlier, optimize_analytical)
 {
-    testFitLine(new abc::ref::LineFitterOptimizeAnalytical(true, true), 0.2);
+    abc::ref::LineFitterOptimizeAnalytical algo(true, true);
+    testFitLine(&algo, 0.2);
 }
