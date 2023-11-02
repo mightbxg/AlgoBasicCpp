@@ -6,3 +6,6 @@ add_executable(test_gen_line_pt test_gen_line_pt.cpp)
 
 add_executable(test_fit_line test_fit_line.cpp)
 target_link_libraries(test_fit_line GTest::gtest GTest::gtest_main)
+
+add_executable(test_lru_cache test_lru_cache.cpp)
+target_link_libraries(test_lru_cache GTest::gtest GTest::gtest_main)
