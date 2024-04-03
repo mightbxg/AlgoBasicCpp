@@ -37,6 +37,14 @@ static void testFitLineInvalid(const abc::LineFitter* algo)
     std::cout << "fit result of invalid data: " << model.transpose() << "\n";
 }
 
+class MyLineFitter : public abc::LineFitter {
+public:
+    [[nodiscard]] Eigen::Vector3d fitLine(const std::vector<Eigen::Vector2d>& pts) const override
+    {
+        return { 1, 0, -100 };
+    }
+};
+
 TEST(fit_line, linear_ref)
 {
     abc::ref::LineFitterLinear algo;
